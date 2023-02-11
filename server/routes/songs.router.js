@@ -27,11 +27,11 @@ router.get('/:trackid', rejectUnauthenticated, (req, res) => {
 
 /**
  * Retrieve user song recommendations from the Spotify API
+ * Collects seed artist, genre submission, and seed tracks to give the user 5 song recommendations
  */
-//TODO: Do I have the params set up correct? Will this accomplish anything?
-router.get('/recommendations/:recommendations', rejectUnauthenticated, (req, res) => {
+router.get('/recommendations/:seedArtistId/:seedGenre/:seedTrack', rejectUnauthenticated, (req, res) => {
     // GET route code here
-    axios.get(`https://api.spotify.com/v1/recommendations.json?query=${req.params.recommendations}&apikey=${process.env.SPOTIFY_API_KEY}`)
+    axios.get(`https://api.spotify.com/v1/recommendations?limit=5&seed_artists=${req.params.seedArtistId}&seed_genres=${req.params.seedGenre}&seed_tracks=${req.params.seedTrack}/&apikey=${process.env.SPOTIFY_API_KEY}`)
     .then(response => {
       //promise.all???
       res.send(response.data)
